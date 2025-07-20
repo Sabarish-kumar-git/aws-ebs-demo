@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Service class for managing Person entities.
- * Provides methods to find, create, and list persons.
+ * Provides methods to create, read, update, and delete Person records.
  */
 @Service
 public class PersonService {
@@ -38,4 +38,20 @@ public class PersonService {
         personEntity = personRepository.save(personEntity);
         return personMapper.toDTO(personEntity);
     }
+
+    public void deletePerson(int id) {
+        personRepository.deleteById(id);
+    }
+
+    public PersonDTO updatePerson(int id, PersonDTO personDTO) {
+        Person existingPerson = personRepository.findById(id).orElse(null);
+        if (existingPerson != null) {
+            existingPerson.setPersonName(personDTO.getPersonName());
+            existingPerson.setPersonContact(personDTO.getPersonContact());
+            existingPerson = personRepository.save(existingPerson);
+            return personMapper.toDTO(existingPerson);
+        }
+        return null;
+    }
+
 }

@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing Person entities.
+ * Provides endpoints to create, read, update, and delete Person records.
+ */
 @RestController
 @RequestMapping("/api")
 public class PersonController {
@@ -73,5 +77,37 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPerson);
     }
 
+    /**
+     * Deletes a person by their ID.
+     *
+     * @param id the ID of the person to delete
+     * @return ResponseEntity with no content if successful, or an error response if not found
+     */
+    @PutMapping("/person/{id}")
+    public ResponseEntity<PersonDTO> updatePerson(@PathVariable Integer id, @RequestBody PersonDTO personDTO) {
+        logger.info("Updating person with ID: {}", id);
+        PersonDTO updatedPerson = personService.updatePerson(id, personDTO);
+
+        if (updatedPerson == null) {
+            logger.warn("Person not found with ID: {}", id);
+            throw new ResourceNotFoundException("Person not found with ID: " + id);
+        }
+
+        logger.info("Updated person: {}", updatedPerson);
+        return ResponseEntity.ok(updatedPerson);
+    }
+
+    /**
+     * Deletes a person by their ID.
+     * @param id
+     * @return ResponseEntity with no content if successful, or an error response if not found
+     */
+    @DeleteMapping("/person/{id}")
+    public ResponseEntity<?> deletePerson(@PathVariable Integer id) {
+        logger.info("Deleting person with ID: {}", id);
+        personService.deletePerson(id);
+        logger.info("Person with ID: {} deleted successfully", id);
+        return ResponseEntity.ok().build();
+    }
 }
 
