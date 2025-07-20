@@ -5,14 +5,10 @@ import io.swagger.v3.oas.annotations.info.Info;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Main application class for the AWS EBS Demo application.
+ */
 @SpringBootApplication
-@OpenAPIDefinition(
-		info = @Info(
-				title = "API Swagger dashboard",
-				version = "1.0",
-				description = "API documentation for REST API"
-		)
-)
 public class AwsEbsDemoApplication {
 
 	public static void main(String[] args) {

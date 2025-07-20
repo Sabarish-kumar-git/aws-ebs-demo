@@ -7,11 +7,11 @@ import com.example.aws_ebs_demo.Service.PersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -46,5 +46,32 @@ public class PersonController {
         logger.info("Person found: {}", personDTO);
         return ResponseEntity.ok(personDTO);
     }
+
+    /**
+     * Fetches all persons.
+     * @return ResponseEntity containing a list of PersonDTOs
+     */
+    @GetMapping("/persons")
+    public ResponseEntity<List<PersonDTO>> getAllPersons() {
+        logger.info("Fetching all persons");
+        List<PersonDTO> persons = personService.findAllPersons();
+        logger.info("Total persons found: {}", persons.size());
+        return ResponseEntity.ok(persons);
+    }
+
+    /**
+     * Creates a new person.
+     *
+     * @param personDTO the PersonDTO containing the details of the person to create
+     * @return ResponseEntity containing the created PersonDTO
+     */
+    @PostMapping("/person")
+    public ResponseEntity<PersonDTO> createPerson(@RequestBody PersonDTO personDTO) {
+        logger.info("Creating new person: {}", personDTO);
+        PersonDTO createdPerson = personService.createPerson(personDTO);
+        logger.info("Created person: {}", createdPerson);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPerson);
+    }
+
 }
 

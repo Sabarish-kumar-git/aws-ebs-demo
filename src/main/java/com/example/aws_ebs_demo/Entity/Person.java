@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Entity class representing a person in the database.
+ * Maps to the PERSON_TBL table.
+ */
 @Entity
 @Table(name = "PERSON_TBL")
 @AllArgsConstructor
